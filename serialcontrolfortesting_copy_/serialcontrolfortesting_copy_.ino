@@ -10,12 +10,10 @@ int pos2 = 0;//initialize pos for servo 2
 void setup() {
   Serial.begin(9600);
   while(! Serial);
-  Serial.println("for servo1,Enter +F to move +50 and -F to move -50. Enter +B to move 10 and -B to move -10//
-  for servo2,enter +K/-K to move +50/-50 and +T/-t to move +10/-10// enter ");
+  Serial.println("enter +F to move servo 1 postive +50, enter -F to move -50, enter +B to move servo 1 +10, - B to move -10.enter +K to move servo 2 +50 and -K to move -50, enter +t to move servo 2 +10 and -T to move -10. Enter R to reset.");
   myservo.attach(8);
   myservo2.attach(9);
 
-  
 
 }
 
@@ -75,7 +73,7 @@ void loop() {
    }
    else{
     pos = 0;
-    pos2 = 0 
+    pos2 = 0; 
     myservo.write(pos);
     myservo2.write(pos2);
     
