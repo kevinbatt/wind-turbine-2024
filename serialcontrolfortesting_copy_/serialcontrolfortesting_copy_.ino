@@ -35,7 +35,6 @@ void loop() {
       myservo.write(pos2);
     }
   }
-  else{
-    Serial.println("Waiting on input");
-  }
+ 
 }
+
