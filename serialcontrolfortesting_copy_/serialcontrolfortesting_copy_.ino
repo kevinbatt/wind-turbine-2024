@@ -9,8 +9,7 @@ Servo myservo2;
 
 int pos = 10;//initialize pos for servo 1
 int pos2 = 10;
-bool lastPos = pos; 
-bool lastPos2 = pos2;
+
 
 
 
