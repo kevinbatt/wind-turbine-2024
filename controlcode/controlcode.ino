@@ -49,6 +49,7 @@ void loop() {
 
   if(val2 >= cutinVoltage){
     delay(cutinTimer);
+    digitalRead(Ebreak);
     if(Ebreak == HIGH){
       Rev = 0;
       RPM = 0;
@@ -56,17 +57,16 @@ void loop() {
       attachInterrupt(digitalPinToInterrupt(signal),interrupt1,FALLING);
       delay(interruptTimer);
       detachInterrupt(signal);
-
-
-
+       if(Rev>0){
+        RPM = (rev*60000)/(3*endTime);
+        Serial.println(rpm);
+       }
 
       if(RPM<<slowRPM){
         Break.write(IntBreakpos);
         Pitch.write(SpeedupPitch);
         Serial.println(RPM);
         delay(movementTimer);
-
-
 
 
       }
