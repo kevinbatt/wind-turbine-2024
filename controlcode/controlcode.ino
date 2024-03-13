@@ -11,18 +11,21 @@ int cutinTimer = 1000; // allow time for cut in voltage to be reached
 int cutinVoltage = 1; // cut in voltage needs to be adjusted as needed
 float val1 = analogRead(A3); // 8 bit value from voltage sensor
 float val2 = (val1/40.97); //converted to actual voltag being read
+float ial1 = analogRead(A4); //this is going to be our check for load connection
+float ial2 = (ial1/50); //  need to figure out what the correct factor is for this but this will be our actual current going to the load, if this drops to zero the load is open and we need to stop the system. 
 int startTime = 0; // initiate start time
 int endTime = 0; // initiate end time
 int Rev = 0; // initiate Revolutions
 int RPM = 0; // initiate RPM
+int rev = 0; // rev = Rev/3
 const int signal = 2; // attach hall effect to pin 2
 const int Ebreak = 3; // attach ebreak to pin 3
 int IntBreakpos = 0; // initiate break pos
-int IntPitchpos = 10; // initiate pitch pos
+int IntPitchpos = 60; // initiate pitch pos
 int FullyBreaked = 50; // the remaining vales are different variables used during the code
-int FullyPitched = 180;
-int SpeedupPitch = 25;
-int SlowdownPitch = 75;
+int FullyPitched = 85;
+int SpeedupPitch = 60;
+int SlowdownPitch = 85;
 int slowRPM = 500;
 int fastRPM = 1800;
 
@@ -51,6 +54,7 @@ void loop() {
     delay(cutinTimer);
     digitalRead(Ebreak);
     if(Ebreak == HIGH){ // check that ebreak is not pressed
+      if(ial2 >= 1){ // check to make sure that the load is connected
       Rev = 0;
       RPM = 0;
       startTime = millis();
@@ -58,8 +62,9 @@ void loop() {
       delay(interruptTimer);
       detachInterrupt(signal);
        if(Rev>0){ 
-        RPM = (rev*60000)/(3*endTime);//calculate RPM based on number of revolutions
-        Serial.println(rpm);
+        rev = (Rev/3);
+        RPM = (rev*60000)/(endTime);//calculate RPM based on number of revolutions
+        Serial.println(RPM);
        }
 
       if(RPM<<slowRPM){//check RPM
@@ -80,6 +85,7 @@ void loop() {
 
 
 
+    }
     }
     else{//if e break pressed this will happen instead
       Break.write(FullyBreaked);
