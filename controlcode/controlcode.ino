@@ -86,6 +86,13 @@ void loop() {
 
 
     }
+    else{
+      Break.write(FullyBreaked);
+      Pitch.write(FullyPitched);
+      Serial.println("LOAD Disconnected");
+      delay(movementTimer);
+
+    }
     }
     else{//if e break pressed this will happen instead
       Break.write(FullyBreaked);
